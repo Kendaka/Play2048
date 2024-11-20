@@ -316,7 +316,7 @@ const handlePlayAgain = () => initializeTiles();
         className="flex justify-center items-center w-full mt-28 sm:mt-12 md:mt-2"
       >
       <div
-        className="grid grid-cols-4 grid-rows-4 w-[90%] max-w-[600px] p-2 gap-1 aspect-square md:w-[50%] sm:w-[60%] sm:max-w-[700px] xs:w-[60%]" 
+        className="grid grid-cols-4 grid-rows-4 w-[90%] max-w-[600px] p-2 gap-1 aspect-square md:w-[45%] sm:w-[60%] sm:max-w-[700px] xs:w-[60%]" 
       >
         {grid.map((value, index) => (
           <div
