@@ -99,5 +99,4 @@ View the top 10 global scores of all registered players.
 
 
 
-Contributing 🤝
 Contributions are welcome. Please, feel free to open issues or submit pull requests to improve this project.
