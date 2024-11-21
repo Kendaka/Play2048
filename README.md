@@ -1,4 +1,6 @@
-2048 Game 🎮
+PLAY 2048 🎮
+
+
 A full-stack implementation of the classic 2048 game, built using modern web technologies. This project combines an engaging front-end gameplay experience with a robust back-end system for user management and high-score tracking.
 
 Features ✨
