@@ -85,7 +85,7 @@ const Header = ({ onLogout }) => {
       <h1
         className="text-5xl font-extrabold text-transparent bg-clip-text 
         bg-gradient-to-r from-rustOrange via-burntYellow to-oliveGreen 
-        animate-shimmer drop-shadow-2xl font-[Poppins] mt-4 md:absolute md:left-12 md:text-6xl"
+        animate-shimmer drop-shadow-2xl font-[Poppins] mt-4 md:absolute md:left-20 md:top-8 md:text-7xl"
       >
         2048
       </h1>

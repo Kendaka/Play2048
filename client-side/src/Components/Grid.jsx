@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Score from './Score';
 import GameMessage from './GameMessage';
+import Button from './Buttons';
 import { authenticatedRequest } from '../Services/authService';
 
 const Grid = () => {
@@ -9,9 +10,12 @@ const Grid = () => {
   const [score, setScore] = useState(0); // state for tracking the scores
   const [highScore, setHighScore] = useState(0);  // state for tracking the highscore
   const [gameStatus, setGameStatus] = useState(null) // state for checking the game status
+  const [history, setHistory] = useState([]); // to store grid history
+  const [scoreHistory, setScoreHistory] = useState([]); // to store score history
   const moveSound = new Audio('/sounds/movingSound.wav'); // sound for tiles moving
   const loseSound = new Audio('/sounds/youLose.mp3'); // sound if the user lose
   const winSound = new Audio('/sounds/youWon.wav'); // sound if the user won
+  const [soundEnabled, setSoundEnabled] = useState(true); // sound check
 
   // it sends an updated highscore to the server
   const updateHighScore = async (newScore) => {
@@ -20,6 +24,10 @@ const Grid = () => {
     } catch (error) {
       console.error("Failed to update high score:", error);
     }
+  };
+
+  const toggleSound = () => {
+    setSoundEnabled(prev => !prev);
   };
   
   // generating two random tiles with values of either 2 or 4
@@ -61,20 +69,26 @@ const Grid = () => {
     return true;
   };
   
-  // handle the status of the game
+  // handle game's status
   const handleGame = () => {
     if (score > highScore) {
       setHighScore(score);  
       updateHighScore(score); 
     }
+  
     if (checkForWin()) {
       setGameStatus('won');
-      winSound.play();
+      if (soundEnabled) {
+        winSound.play();
+      }
     } else if (checkForLoss()) {
       setGameStatus('lost');
-      loseSound.play();
+      if (soundEnabled) {
+        loseSound.play();
+      }
     }
   };
+  
 
   // assigning background color based on the tile value
   const getTileColor = (value) => {
@@ -225,6 +239,9 @@ const Grid = () => {
     const newGrid = [...grid];
     let moved = false;
 
+    setHistory(prevHistory => [...prevHistory, [...grid]]);
+    setScoreHistory(prevScoreHistory => [...prevScoreHistory, score]);
+
     if (direction === 'left') {
       for (let i = 0; i < gridSize; i++) {
         const row = newGrid.slice(i * gridSize, i * gridSize + gridSize);
@@ -265,7 +282,9 @@ const Grid = () => {
 
     // generating another tile if tiles moved
       if (moved) {
-        moveSound.play();
+        if (soundEnabled) {
+          moveSound.play(); // play only if sound is enabled
+        }
         const emptyCells = newGrid.map((value, index) => (value === null ? index : null)).filter(index => index !== null);
         if (emptyCells.length > 0) {
           const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
@@ -275,6 +294,26 @@ const Grid = () => {
       }
       handleGame();
     };
+
+    // function to undo each moves
+    const undoMove = () => {
+      if (history.length > 0) {
+        const lastGrid = history[history.length - 1];
+        const lastScore = scoreHistory[scoreHistory.length - 1];
+    
+        setGrid(lastGrid);
+        setScore(lastScore);
+    
+        setHistory(history.slice(0, -1)); // Remove the last grid from history
+        setScoreHistory(scoreHistory.slice(0, -1)); // Remove the last score from history
+      }
+    };
+
+    // function for restarting the game
+    const restartGame = () => {
+      initializeTiles(); // Reinitialize the grid and reset score
+    };
+    
 
   // calling the initialize function
   useEffect(() => {
@@ -313,7 +352,7 @@ const handlePlayAgain = () => initializeTiles();
   return (
     <div className="flex flex-col items-center min-h-screen">
       <div 
-        className="flex justify-center items-center w-full mt-28 sm:mt-12 md:mt-2"
+        className="flex justify-center items-center w-full mt-36 sm:mt-12 md:mt-2"
       >
       <div
         className="grid grid-cols-4 grid-rows-4 w-[90%] max-w-[600px] p-2 gap-1 aspect-square md:w-[45%] sm:w-[60%] sm:max-w-[700px] xs:w-[60%]" 
@@ -339,6 +378,7 @@ const handlePlayAgain = () => initializeTiles();
         />
       )}
       </div>
+      <Button onUndo={undoMove} onRestart={restartGame} onToggleSound={toggleSound} soundEnabled={soundEnabled} />
       <Score score={score} highScore={highScore} />
     </div>
   );
