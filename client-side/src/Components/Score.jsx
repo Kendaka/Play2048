@@ -2,26 +2,24 @@ import React, { useState, useEffect } from "react";
 import { authenticatedRequest } from "../Services/authService"; 
 
 const Score = (props) => {
-  const [highScore, setHighScore] = useState(0); // state to store the current high score
-  const [error, setError] = useState(null); // state to store any error messages
-  const isGuest = localStorage.getItem('guestMode') === 'true'; // check if in guest mode
+  const [highScore, setHighScore] = useState(0);
+  const [error, setError] = useState(null);
+  const isGuest = localStorage.getItem('guestMode') === 'true'; 
 
   // fetch initial high score when the component mounts
   useEffect(() => {
     if (isGuest) {
-      // fetch high score from localStorage for guests
+    
       const localHighScore = localStorage.getItem('guestHighScore') || 0;
       setHighScore(parseInt(localHighScore, 10));
     } else {
       const fetchHighScore = async () => {
-        try {
-          // API request to retrieve the user's high score
-          const response = await authenticatedRequest(
+        try {          const response = await authenticatedRequest(
             "http://localhost:5000/api/auth/highscore"
           );
           setHighScore(response.highScore); 
         } catch (error) {
-          setError("Failed to fetch high score"); 
+          setError("Loading.."); 
           console.error("Error fetching high score:", error); 
         }
       };
@@ -33,11 +31,11 @@ const Score = (props) => {
   useEffect(() => {
     if (props.score > highScore) {
       if (isGuest) {
-        // save high score locally for guests
+        
         localStorage.setItem('guestHighScore', props.score);
         setHighScore(props.score);
       } else {
-        // update high score on server for logged-in users
+        
         const updateHighScore = async () => {
           try {
             const response = await authenticatedRequest(

@@ -43,7 +43,7 @@ const Grid = () => {
     randomIndices.forEach(index => {
       initialGrid[index] = getRandomTileValue();
     });
-    setGrid(initialGrid); // updating the grid state
+    setGrid(initialGrid);
     setScore(0);
     setGameStatus(null);
   };
@@ -112,21 +112,21 @@ const Grid = () => {
   const shiftRowLeft = (row) => {
     let filteredRow = row.filter(cell => cell !== null);
     let newRow = [];
-    let merged = Array(row.length).fill(false); // tracking merged cells to avoid merging twice
-    let tempScore = 0; // temporary score to accumulate during this shift
+    let merged = Array(row.length).fill(false);
+    let tempScore = 0; 
 
     let i = 0;
     while (i < filteredRow.length) {
       // merging if they have the same value and are not merged yet.
       if (i + 1 < filteredRow.length && filteredRow[i] === filteredRow[i + 1] && !merged[i] && !merged[i + 1]) {
         const mergedValue = filteredRow[i] * 2;
-        newRow.push(filteredRow[i] * 2); // doubling the value of the merged tiles
-        tempScore += mergedValue; // add merged value to temp score
-        merged[i] = true; // marking it as merged
+        newRow.push(filteredRow[i] * 2); 
+        tempScore += mergedValue; 
+        merged[i] = true; 
         i += 2;
       } else {
-        newRow.push(filteredRow[i]); // moving the tiles if they are unable to merge
-        i++;
+        newRow.push(filteredRow[i]); 
+        i++
       }
     }
 
@@ -134,7 +134,7 @@ const Grid = () => {
     while (newRow.length < gridSize) {
       newRow.push(null);
     }
-    setScore(prevScore => prevScore + tempScore); // only update score once after merging
+    setScore(prevScore => prevScore + tempScore); 
     return newRow;
   };
 
@@ -283,14 +283,14 @@ const Grid = () => {
     // generating another tile if tiles moved
       if (moved) {
         if (soundEnabled) {
-          moveSound.play(); // play only if sound is enabled
+          moveSound.play(); 
         }
         const emptyCells = newGrid.map((value, index) => (value === null ? index : null)).filter(index => index !== null);
         if (emptyCells.length > 0) {
           const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
           newGrid[randomIndex] = getRandomTileValue();
         }
-        setGrid(newGrid); // updating the grid state
+        setGrid(newGrid); 
       }
       handleGame();
     };

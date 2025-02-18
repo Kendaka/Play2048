@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/auth'; // backend API base URL
+const API_URL = 'http://localhost:5000/api/auth'; 
 
 // token management functions for localStorage
 const getToken = () => localStorage.getItem('token');
@@ -54,7 +54,6 @@ export const authenticatedRequest = async (url, method = 'GET', data = null) => 
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 403) {
-      // attempt token refresh if the request was unauthorized
       if (!isRefreshing) {
         isRefreshing = true;
         try {
@@ -66,7 +65,6 @@ export const authenticatedRequest = async (url, method = 'GET', data = null) => 
         }
       }
 
-      // retry the request after token refresh
       return new Promise((resolve) => {
         addSubscriber(() => resolve(authenticatedRequest(url, method, data)));
       });

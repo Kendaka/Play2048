@@ -11,7 +11,7 @@ const Login = ({ onLogin }) => {
   // state for managing success and error messages
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const navigate = useNavigate(); // hook to navigate between routes
+  const navigate = useNavigate();
 
   // handles the form submission for login
   const handleLoginSubmit = async (e) => {
@@ -22,7 +22,7 @@ const Login = ({ onLogin }) => {
       try {
           const data = await loginUser(username, password); 
           setSuccessMessage(data.message); 
-          localStorage.setItem('token', data.token); // store token in localStorage for authentication
+          localStorage.setItem('token', data.token); 
           onLogin(); 
           navigate('/'); 
       } catch (error) {

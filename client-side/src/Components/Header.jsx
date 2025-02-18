@@ -5,16 +5,16 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 // this component displays the header for the 2048 game, including a title and navigation buttons (Leaderboard and Logout).
 const Header = ({ onLogout }) => {
   // hooks for managing current location, navigation, and menu state.
-  const location = useLocation(); // determines the current URL path.
-  const navigate = useNavigate(); // allows programmatic navigation.
-  const isLeaderboardPage = location.pathname === "/leaderboard"; // checks if the user is on the Leaderboard page.
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // manages the state of the mobile menu.
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isLeaderboardPage = location.pathname === "/leaderboard";
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // handles user logout by removing login data and navigating to the home page.
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn"); // clears login status from localStorage.
-    onLogout(false); // calls the parent-provided logout handler.
-    navigate("/"); // redirects to the home page.
+    localStorage.removeItem("isLoggedIn");
+    onLogout(false); 
+    navigate("/");
   };
 
   // toggles the visibility of the mobile menu.

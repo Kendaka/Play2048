@@ -6,13 +6,13 @@ const Register = () => {
   // state variables to manage input fields and feedback messages
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(''); // stores error feedback
-  const [successMessage, setSuccessMessage] = useState(''); // stores success feedback
+  const [errorMessage, setErrorMessage] = useState(''); 
+  const [successMessage, setSuccessMessage] = useState(''); 
   const navigate = useNavigate();
 
   // handles the registration form submission
   const handleRegisterSubmit = async (e) => {
-    e.preventDefault(); // prevents default form submission behavior
+    e.preventDefault(); 
     setErrorMessage('');
     setSuccessMessage('');
 
@@ -31,10 +31,10 @@ const Register = () => {
     // calls the backend service for user registration
       const data = await registerUser(username, password);
       setSuccessMessage(data.message); 
-      localStorage.setItem('token', data.token); // stores the token locally for authentication
+      localStorage.setItem('token', data.token); 
       navigate('/'); 
     } catch (error) {
-      setErrorMessage(error.message || 'An error occurred'); // displays backend error message
+      setErrorMessage(error.message || 'An error occurred'); 
     }
   };
 
@@ -52,7 +52,7 @@ const Register = () => {
               type="text"
               id="registerUsername"
               value={username}
-              onChange={(e) => setUsername(e.target.value)} // updates username state on input
+              onChange={(e) => setUsername(e.target.value)} 
               className={`w-full px-3 py-2 bg-softCream text-burntYellow rounded border-2 border-softCream focus:outline-none focus:ring-2 focus:ring-burntYellow md:px-4 md:py-3 ${
                   username ? 'pt-5' : ''
               }`}
@@ -73,7 +73,7 @@ const Register = () => {
               type="password"
               id="registerPassword"
               value={password}
-              onChange={(e) => setPassword(e.target.value)} // updates password state on input
+              onChange={(e) => setPassword(e.target.value)} 
               className={`w-full px-3 py-2 bg-softCream text-burntYellow rounded border-2 border-softCream focus:outline-none focus:ring-2 focus:ring-burntYellow md:px-4 md:py-3 ${
                   password ? 'pt-5' : ''
               }`}

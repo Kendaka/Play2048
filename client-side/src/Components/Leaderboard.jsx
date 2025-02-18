@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { fetchLeaderboard } from '../Services/authService'; // importing the service to fetch leaderboard data
+import { fetchLeaderboard } from '../Services/authService'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { faMedal } from '@fortawesome/free-solid-svg-icons'; 
 
 const Leaderboard = () => {
-  // state for storing the top scores
+  // state for storing the top s
   const [topScores, setTopScores] = useState([]);
   // state to track if data is loading
   const [loading, setLoading] = useState(true);
@@ -15,17 +15,17 @@ const Leaderboard = () => {
   useEffect(() => {
     const loadLeaderboard = async () => {
       try {
-        const data = await fetchLeaderboard(); // fetch data from the backend
-        setTopScores(data); // update the state with the fetched scores
-        setLoading(false); // set loading to false once data is fetched
+        const data = await fetchLeaderboard(); 
+        setTopScores(data); 
+        setLoading(false); 
       } catch (error) {
-        console.error(error); // log the error for debugging
-        setError('There was an issue loading the leaderboard. Please try again later.'); // set an error message
-        setLoading(false); // ensure loading state is updated even on error
+        console.error(error); 
+        setError('There was an issue loading the leaderboard. Please try again later.'); 
+        setLoading(false); 
       }
     };
 
-    loadLeaderboard(); // invoke the data loading function
+    loadLeaderboard(); 
   }, []); 
 
   // get the medal icon based on the ranking position
@@ -65,7 +65,7 @@ const Leaderboard = () => {
             // display the leaderboard scores
             topScores.map((user, index) => (
               <li
-                key={index} // unique key for each list item
+                key={index} 
                 className="text-md sm:text-xl font-[RussoOne] text-burntYellow flex items-center justify-center space-x-2"
               >
                 {getMedalIcon(index)} {/* display medal icon for top 3 ranks */}
